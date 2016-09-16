@@ -25,17 +25,13 @@ public class ProjectHandler implements IProjectHandler {
     @Override
     public void createUser(String name, String email) {
         EntityManagerFactory emfactory = Persistence.createEntityManagerFactory(persistenceUnit);
-
         EntityManager entitymanager = emfactory.createEntityManager();
         entitymanager.getTransaction().begin();
-
-        ProjectUser pu = new ProjectUser();
-        pu.setUserName(name);
-        pu.setEmail(email);
-        
-        entitymanager.persist(pu);
+        ProjectUser puser = new ProjectUser();
+        puser.setUserName(name);
+        puser.setEmail(email);     
+        entitymanager.persist(puser);
         entitymanager.getTransaction().commit();
-
         entitymanager.close();
         emfactory.close();
     }
@@ -59,17 +55,13 @@ public class ProjectHandler implements IProjectHandler {
     @Override
     public void createProject(String name, String description) {
         EntityManagerFactory emfactory = Persistence.createEntityManagerFactory(persistenceUnit);
-
         EntityManager entitymanager = emfactory.createEntityManager();
         entitymanager.getTransaction().begin();
-
         Project project = new Project();
         project.setName(name);
-        project.setDescription(description);
-        
+        project.setDescription(description);    
         entitymanager.persist(project);
         entitymanager.getTransaction().commit();
-
         entitymanager.close();
         emfactory.close();
     }
@@ -77,16 +69,12 @@ public class ProjectHandler implements IProjectHandler {
     @Override
     public void assignUserToProject(ProjectUser user, int projectId) {
         EntityManagerFactory emfactory = Persistence.createEntityManagerFactory(persistenceUnit);
-
         EntityManager entitymanager = emfactory.createEntityManager();
         entitymanager.getTransaction().begin();
-
         Project p = findProject(projectId);
-        p.setProjectUser(user);
-        
+        p.setProjectUser(user);       
         entitymanager.persist(p);
         entitymanager.getTransaction().commit();
-
         entitymanager.close();
         emfactory.close();
     }
@@ -102,18 +90,13 @@ public class ProjectHandler implements IProjectHandler {
     @Override
     public void CreateTaskAndAssignToProject(String name, String description, int hoursAssigned, int hoursUsed, int projectId) {
         EntityManagerFactory emfactory = Persistence.createEntityManagerFactory(persistenceUnit);
-
         EntityManager entitymanager = emfactory.createEntityManager();
-        entitymanager.getTransaction().begin();
-        
-        Task t = createTask(name, description, hoursAssigned, hoursUsed);
-        
+        entitymanager.getTransaction().begin();     
+        Task t = createTask(name, description, hoursAssigned, hoursUsed);      
         Project p = findProject(projectId);
-        p.setTasks(t);
-        
+        p.setTasks(t);        
         entitymanager.persist(p);
         entitymanager.getTransaction().commit();
-
         entitymanager.close();
         emfactory.close();
     }
